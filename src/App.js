@@ -2,35 +2,64 @@ import './App.css';
 //import ReactDOM from 'react-dom'
 import React, { useState } from 'react'
 
-const Display = ({counter}) => {
+const tasks = [
+  {
+    id: 1,
+    content: 'Create MERN App',
+    date: '2020-02-03',
+    important: true
+  },
+  {
+    id: 2,
+    content: 'Test App',
+    date: '2020-02-03',
+    important: false
+  }
+]
+
+const subtasks = [
+  {
+    id: 1,
+    content: 'Build Frontend',
+    mainTask: 1
+  },
+  {
+    id: 2,
+    content: 'Build Backend',
+    mainTask: 1
+  },
+  {
+    id: 3,
+    content: 'Learn about Unit Tests',
+    mainTask: 2
+  },
+  {
+    id: 4,
+    content: 'Try put Cypress.io',
+    mainTask: 2
+  }
+]
+
+const Task = () => {
   return (
-    <div>{counter}</div>
+    tasks.map(task => <li key={task.id}>{task.content}</li>)
   )
 }
 
-const Button = ({eventHandler, label}) => {
+const Subtask = () => {
   return (
-    <div>
-      <button onClick={eventHandler}>
-        {label}
-      </button>
-    </div>
+  subtasks.map(subtask => <li key={subtask.id}>{subtask.content}</li>)
   )
 }
 
 const App = () => {
-  const [counter, setCounter] = useState(0);
-
-  const handleClick = () => {
-    setCounter(counter + 1);
-    console.log('clicked');
-  }
 
   return (
     <div>
-      <Display counter={counter}/>
-      <Button eventHandler={handleClick} label='plus'/>
-      <Button eventHandler={ () => setCounter(0)} label='reset'/>
+      <h1>Tasks</h1>
+      <ul>
+        <Task />
+      </ul>
     </div>
   )
 }
