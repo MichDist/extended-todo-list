@@ -7,48 +7,50 @@ const tasks = [
     id: 1,
     content: 'Create MERN App',
     date: '2020-02-03',
-    important: true
+    important: true,
+    subtasks: [
+      {
+        id: 1,
+        content: 'Build Frontend',
+        mainTask: 1
+      },
+      {
+        id: 2,
+        content: 'Build Backend',
+        mainTask: 1
+      }
+    ]
   },
   {
     id: 2,
     content: 'Test App',
     date: '2020-02-03',
-    important: false
+    important: false,
+    subtasks: [
+      {
+        id: 3,
+        content: 'Learn about Unit Tests',
+        mainTask: 2
+      },
+      {
+        id: 4,
+        content: 'Try out Cypress.io',
+        mainTask: 2
+      }
+    ]
   }
 ]
 
-const subtasks = [
-  {
-    id: 1,
-    content: 'Build Frontend',
-    mainTask: 1
-  },
-  {
-    id: 2,
-    content: 'Build Backend',
-    mainTask: 1
-  },
-  {
-    id: 3,
-    content: 'Learn about Unit Tests',
-    mainTask: 2
-  },
-  {
-    id: 4,
-    content: 'Try put Cypress.io',
-    mainTask: 2
-  }
-]
-
-const Task = () => {
+const Subtask = ({task}) => {
   return (
-    tasks.map(task => <li key={task.id}>{task.content}</li>)
+    task.subtasks.map(subtask => <li class='subtask' key={subtask.id}>{subtask.content}</li>)
   )
 }
 
-const Subtask = () => {
+const Task = () => {
   return (
-  subtasks.map(subtask => <li key={subtask.id}>{subtask.content}</li>)
+    tasks.map(task => <li key={task.id}>{task.content} 
+    {<Subtask task={task} />}</li>)
   )
 }
 
