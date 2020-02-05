@@ -1,6 +1,7 @@
 import './App.css';
-//import ReactDOM from 'react-dom'
-import React, { useState } from 'react'
+//import ReactDOM from 'react-dom';
+import React, { useState } from 'react';
+import Task from './components/Task';
 
 const tasks = [
   {
@@ -41,27 +42,24 @@ const tasks = [
   }
 ]
 
-const Subtask = ({task}) => {
-  return (
-    task.subtasks.map(subtask => <li class='subtask' key={subtask.id}>{subtask.content}</li>)
-  )
-}
-
-const Task = () => {
-  return (
-    tasks.map(task => <li key={task.id}>{task.content} 
-    {<Subtask task={task} />}</li>)
-  )
-}
-
 const App = () => {
+  const [tasksState, setTasks] = useState(tasks);
+
+  const addTask = (event) => {
+    event.preventDefault();
+    console.log('Button clicked', event.target);
+  }
 
   return (
     <div>
       <h1>Tasks</h1>
       <ul>
-        <Task />
+        <Task tasks={tasksState}/>
       </ul>
+      <form onSubmit={addTask}>
+        <input />
+        <button type="submit">Save new task</button>
+      </form>
     </div>
   )
 }
