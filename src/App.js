@@ -44,8 +44,8 @@ const tasks = [
     id: 3,
     content: 'Task without Subtasks',
     date: '2020-02-07',
-    important: false,
-    Subtasks: null
+    important: false
+
   }
 ]
 
@@ -56,13 +56,14 @@ const App = () => {
   const addTask = (event) => {
     event.preventDefault();
     const newTaskObject = {
-      id: tasks.length + 1,
+      id: tasksState.length + 1,
       content: newTask,
       date: new Date().toISOString(),
       important: Math.random() > 0.5
+      
     }
 
-    setTasksState(tasks.concat(newTaskObject));
+    setTasksState(tasksState.concat(newTaskObject));
     setNewTask('Some new Task');
   }
 
