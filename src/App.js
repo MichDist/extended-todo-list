@@ -50,8 +50,10 @@ const tasks = [
 ]
 
 const App = () => {
-  const [tasksState, setTasksState] = useState(tasks);
-  const [newTask, setNewTask] = useState('Some new task');
+  const [tasksState, setTasksState] = useState(tasks)
+  const [newTask, setNewTask] = useState('Some new task')
+  const [showAll, setShowAll] = useState(true)
+  const [filter, setFilter] = useState('')
 
   const addTask = (event) => {
     event.preventDefault();
@@ -68,15 +70,26 @@ const App = () => {
   }
 
   const handleNewTask = (event) => {
-    console.log(event.target.value);
-    setNewTask(event.target.value);
+    console.log(event.target.value)
+    setNewTask(event.target.value)
   }
 
+  const handleSearch = (event) => {
+    console.log(event.target.value)
+    setFilter(event.target.value)
+  }
+
+  const tasksToShow = showAll
+    ? <Task tasks={tasksState} filter={filter}/>
+    : <Task tasks={tasksState.filter(task => task.important)} filter={filter} />
+
+  const showTasks = () => tasksToShow
+
   return (
-    <div>
+    <div className='App'>
       <h1>Tasks</h1>
       <ul>
-        <Task tasks={tasksState}/>
+        {showTasks()}
       </ul>
       <form onSubmit={addTask}>
         <input 
@@ -84,8 +97,19 @@ const App = () => {
           onChange={handleNewTask}/>
         <button type="submit">Save new task</button>
       </form>
+      <div>
+        <button onClick={() => setShowAll(!showAll)}>
+          Show {showAll ? 'only important tasks' : 'all tasks'}
+        </button>
+      </div>
+        {/* Search */}        
+      <div>
+        <input 
+        onChange={handleSearch}/> 
+      </div>
     </div>
-  )
-}
+    )
+  }
+
 
 export default App;

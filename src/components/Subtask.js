@@ -3,7 +3,7 @@ import React from 'react';
 const Subtask = ({task}) => {
 if(task.subtasks !== undefined) {
   return (
-    task.subtasks.map(subtask => <li className='subtask' key={subtask.id}>{subtask.content}</li>)
+    task.subtasks.map(subtask => <li key={subtask.id}>{subtask.content}</li>)
   )
 }
 else {
