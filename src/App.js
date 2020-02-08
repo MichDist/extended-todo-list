@@ -39,15 +39,36 @@ const tasks = [
         mainTask: 2
       }
     ]
+  },
+  {
+    id: 3,
+    content: 'Task without Subtasks',
+    date: '2020-02-07',
+    important: false,
+    Subtasks: null
   }
 ]
 
 const App = () => {
-  const [tasksState, setTasks] = useState(tasks);
+  const [tasksState, setTasksState] = useState(tasks);
+  const [newTask, setNewTask] = useState('Some new task');
 
   const addTask = (event) => {
     event.preventDefault();
-    console.log('Button clicked', event.target);
+    const newTaskObject = {
+      id: tasks.length + 1,
+      content: newTask,
+      date: new Date().toISOString(),
+      important: Math.random() > 0.5
+    }
+
+    setTasksState(tasks.concat(newTaskObject));
+    setNewTask('Some new Task');
+  }
+
+  const handleNewTask = (event) => {
+    console.log(event.target.value);
+    setNewTask(event.target.value);
   }
 
   return (
@@ -57,7 +78,9 @@ const App = () => {
         <Task tasks={tasksState}/>
       </ul>
       <form onSubmit={addTask}>
-        <input />
+        <input 
+          value={newTask}
+          onChange={handleNewTask}/>
         <button type="submit">Save new task</button>
       </form>
     </div>
