@@ -73,16 +73,19 @@ const App = () => {
   const addTask = (event) => {
     event.preventDefault();
     const newTaskObject = {
-      id: tasksState.length + 1,
       content: newTask,
       date: new Date().toISOString(),
       important: Math.random() > 0.5
-      
     }
 
-    setTasksState(tasksState.concat(newTaskObject));
-    setNewTask('Some new Task');
-  }
+    axios
+      .post('http://localhost:3001/tasks', newTaskObject)
+      .then(response => {
+        console.log(response)
+        setTasksState(tasksState.concat(response.data))
+        setNewTask('')
+      })
+    }
 
   const handleNewTask = (event) => {
     console.log(event.target.value)
@@ -95,10 +98,20 @@ const App = () => {
   }
 
   const tasksToShow = showAll
-    ? <Task tasks={tasksState} filter={filter}/>
-    : <Task tasks={tasksState.filter(task => task.important)} filter={filter} />
+    ? <Task tasks={tasksState} filter={filter} toggleImportance={() => toggleImportanceOf(tasksState.id)}/>
+    : <Task tasks={tasksState.filter(task => task.important)} filter={filter} toggleImportance={() => toggleImportanceOf(tasksState.id)} />
 
   const showTasks = () => tasksToShow
+
+  const toggleImportanceOf = id => {
+    const url = `http://localhost:3001/tasks/${id}`
+    const task = tasksState.find(n => n.id === id)
+    const changedTask = { ...task, important: !task.important}
+
+    axios.put(url, changedTask).then(response => {
+      setTasksState(tasksState.map(task => task.id !== id ? task : response.data))
+    })
+  }
 
   return (
     <div className='App'>

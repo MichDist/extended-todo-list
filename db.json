@@ -1,5 +1,5 @@
 {
-    "tasks": [
+  "tasks": [
     {
       "id": 1,
       "content": "Create MERN App",
@@ -41,7 +41,36 @@
       "content": "Task without Subtasks",
       "date": "2020-02-07",
       "important": false
-  
+    },
+    {
+      "id": 4,
+      "content": "Some new task",
+      "date": "2020-02-10T20:55:41.474Z",
+      "important": true
+    },
+    {
+      "content": "Some new task",
+      "date": "2020-02-10T20:56:20.034Z",
+      "important": false,
+      "id": 5
+    },
+    {
+      "content": "dfg",
+      "date": "2020-02-10T20:56:22.073Z",
+      "important": true,
+      "id": 6
+    },
+    {
+      "content": "dfg",
+      "date": "2020-02-10T20:56:33.025Z",
+      "important": true,
+      "id": 7
+    },
+    {
+      "content": "fdgfdgd",
+      "date": "2020-02-10T20:57:57.481Z",
+      "important": true,
+      "id": 8
     }
   ]
 }
