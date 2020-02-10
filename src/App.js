@@ -1,7 +1,8 @@
 import './App.css';
 //import ReactDOM from 'react-dom';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Task from './components/Task';
+import axios from 'axios'
 
 const tasks = [
   {
@@ -50,10 +51,24 @@ const tasks = [
 ]
 
 const App = () => {
-  const [tasksState, setTasksState] = useState(tasks)
+  // State Hooks
+  const [tasksState, setTasksState] = useState([])
   const [newTask, setNewTask] = useState('Some new task')
   const [showAll, setShowAll] = useState(true)
   const [filter, setFilter] = useState('')
+
+
+  useEffect(() => {                           // useEffect(hook, [])
+    console.log('effect')
+    axios
+      .get('http://localhost:3001/tasks')
+      .then(response => {                     // Event Handler
+        console.log('promise fulfilled')
+        setTasksState(response.data)
+      })
+  }, [])
+  console.log('render ', tasksState.length, ' tasks')
+
 
   const addTask = (event) => {
     event.preventDefault();

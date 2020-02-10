@@ -1,0 +1,47 @@
+{
+    "tasks": [
+    {
+      "id": 1,
+      "content": "Create MERN App",
+      "date": "2020-02-03",
+      "important": true,
+      "subtasks": [
+        {
+          "id": 1,
+          "content": "Build Frontend",
+          "mainTask": 1
+        },
+        {
+          "id": 2,
+          "content": "Build Backend",
+          "mainTask": 1
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "content": "Test App",
+      "date": "2020-02-03",
+      "important": false,
+      "subtasks": [
+        {
+          "id": 3,
+          "content": "Learn about Unit Tests",
+          "mainTask": 2
+        },
+        {
+          "id": 4,
+          "content": "Try out Cypress.io",
+          "mainTask": 2
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "content": "Task without Subtasks",
+      "date": "2020-02-07",
+      "important": false
+  
+    }
+  ]
+}
