@@ -6,7 +6,7 @@ const Task = ({tasks, filter, toggleImportance}) => {
   const filteredTasks = tasks.filter(task => task.content.toLowerCase().includes(filter.toLowerCase()))
 
   // Importance
-  const label = tasks.important // FEHLER
+  const label = tasks.important // FEHLER Es soll nur ein Element sein; Lösung tasks.map( über return)
     ? 'make not important' : 'make important'
 
     return (

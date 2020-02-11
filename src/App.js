@@ -3,6 +3,7 @@ import './App.css';
 import React, { useState, useEffect } from 'react';
 import Task from './components/Task';
 import axios from 'axios'
+import Task2 from './components/Task2'
 
 const tasks = [
   {
@@ -96,10 +97,16 @@ const App = () => {
     console.log(event.target.value)
     setFilter(event.target.value)
   }
-
+/*
   const tasksToShow = showAll
     ? <Task tasks={tasksState} filter={filter} toggleImportance={() => toggleImportanceOf(tasksState.id)}/>
     : <Task tasks={tasksState.filter(task => task.important)} filter={filter} toggleImportance={() => toggleImportanceOf(tasksState.id)} />
+*/
+const tasksToShow = showAll
+// Show all and allow searching
+? tasksState.filter(task => task.content.toLowerCase().includes(filter.toLowerCase())).map(task => <Task2 task={task} toggleImportance={() => toggleImportanceOf(task.id)}/>)
+// Show only important and allow searching
+: tasksState.filter(task => task.content.toLowerCase().includes(filter.toLowerCase())).filter(task => task.important).map(task => <Task2 task={task} toggleImportance={() => toggleImportanceOf(task.id)}/>)
 
   const showTasks = () => tasksToShow
 
