@@ -1,9 +1,9 @@
 import './App.css';
 //import ReactDOM from 'react-dom';
 import React, { useState, useEffect } from 'react';
-import Task from './components/Task';
 import axios from 'axios'
-import Task2 from './components/Task2'
+import Task from './components/Task'
+import taskService from './services/tasks'
 
 const tasks = [
   {
@@ -60,15 +60,12 @@ const App = () => {
 
 
   useEffect(() => {                           // useEffect(hook, [])
-    console.log('effect')
-    axios
-      .get('http://localhost:3001/tasks')
-      .then(response => {                     // Event Handler
-        console.log('promise fulfilled')
-        setTasksState(response.data)
+    taskService
+      .getAll()
+      .then(initialTasks => {                     // Event Handler
+        setTasksState(initialTasks)
       })
   }, [])
-  console.log('render ', tasksState.length, ' tasks')
 
 
   const addTask = (event) => {
@@ -79,11 +76,10 @@ const App = () => {
       important: Math.random() > 0.5
     }
 
-    axios
-      .post('http://localhost:3001/tasks', newTaskObject)
-      .then(response => {
-        console.log(response)
-        setTasksState(tasksState.concat(response.data))
+    taskService
+      .create(newTaskObject)
+      .then(returnedTask => {
+        setTasksState(tasksState.concat(returnedTask))
         setNewTask('')
       })
     }
@@ -97,26 +93,31 @@ const App = () => {
     console.log(event.target.value)
     setFilter(event.target.value)
   }
-/*
+
   const tasksToShow = showAll
-    ? <Task tasks={tasksState} filter={filter} toggleImportance={() => toggleImportanceOf(tasksState.id)}/>
-    : <Task tasks={tasksState.filter(task => task.important)} filter={filter} toggleImportance={() => toggleImportanceOf(tasksState.id)} />
-*/
-const tasksToShow = showAll
-// Show all and allow searching
-? tasksState.filter(task => task.content.toLowerCase().includes(filter.toLowerCase())).map(task => <Task2 task={task} toggleImportance={() => toggleImportanceOf(task.id)}/>)
-// Show only important and allow searching
-: tasksState.filter(task => task.content.toLowerCase().includes(filter.toLowerCase())).filter(task => task.important).map(task => <Task2 task={task} toggleImportance={() => toggleImportanceOf(task.id)}/>)
+  // Show all and allow searching
+  ? tasksState.filter(task => task.content.toLowerCase().includes(filter.toLowerCase())).map(task => <Task task={task} toggleImportance={() => toggleImportanceOf(task.id)}/>)
+  // Show only important and allow searching
+  : tasksState.filter(task => task.content.toLowerCase().includes(filter.toLowerCase())).filter(task => task.important).map(task => <Task task={task} toggleImportance={() => toggleImportanceOf(task.id)}/>)
 
   const showTasks = () => tasksToShow
 
   const toggleImportanceOf = id => {
-    const url = `http://localhost:3001/tasks/${id}`
     const task = tasksState.find(n => n.id === id)
     const changedTask = { ...task, important: !task.important}
 
-    axios.put(url, changedTask).then(response => {
-      setTasksState(tasksState.map(task => task.id !== id ? task : response.data))
+  taskService
+    .update(id, changedTask)
+    .then(returnedTask => {
+      setTasksState(tasksState.map(task => task.id !== id ? task : returnedTask))
+    })
+    // Catch error when user tries to make a non existing task (not) important
+    .catch(error => {
+      alert(
+        `The Task '${task.content}' is not on the server!`
+      )
+      // Filter the taks out from state
+      setTasksState(tasksState.filter(n => n.id !== id))
     })
   }
 

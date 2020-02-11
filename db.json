@@ -63,7 +63,7 @@
     {
       "content": "dfg",
       "date": "2020-02-10T20:56:33.025Z",
-      "important": true,
+      "important": false,
       "id": 7
     },
     {
@@ -75,7 +75,7 @@
     {
       "content": "fghfghj",
       "date": "2020-02-11T19:45:38.895Z",
-      "important": false,
+      "important": true,
       "id": 9
     },
     {
@@ -89,6 +89,18 @@
       "date": "2020-02-11T19:45:40.487Z",
       "important": false,
       "id": 11
+    },
+    {
+      "content": "TEST TEST",
+      "date": "2020-02-11T20:43:30.883Z",
+      "important": false,
+      "id": 12
+    },
+    {
+      "content": "gdafsdagasdgadsfFDSAFADF",
+      "date": "2020-02-11T20:52:54.234Z",
+      "important": true,
+      "id": 13
     }
   ]
 }
