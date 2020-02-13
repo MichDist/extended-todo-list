@@ -51,7 +51,7 @@
     {
       "content": "Some new task",
       "date": "2020-02-10T20:56:20.034Z",
-      "important": false,
+      "important": true,
       "id": 5
     },
     {
@@ -81,7 +81,7 @@
     {
       "content": "",
       "date": "2020-02-11T19:45:39.639Z",
-      "important": false,
+      "important": true,
       "id": 10
     },
     {

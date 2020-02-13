@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios'
 import Task from './components/Task'
 import taskService from './services/tasks'
+import Notification from './components/Notification'
 
 const tasks = [
   {
@@ -57,6 +58,7 @@ const App = () => {
   const [newTask, setNewTask] = useState('Some new task')
   const [showAll, setShowAll] = useState(true)
   const [filter, setFilter] = useState('')
+  const [errorMessage, setErrorMessage] = useState(null)
 
 
   useEffect(() => {                           // useEffect(hook, [])
@@ -66,7 +68,6 @@ const App = () => {
         setTasksState(initialTasks)
       })
   }, [])
-
 
   const addTask = (event) => {
     event.preventDefault();
@@ -113,9 +114,12 @@ const App = () => {
     })
     // Catch error when user tries to make a non existing task (not) important
     .catch(error => {
-      alert(
+      setErrorMessage(
         `The Task '${task.content}' is not on the server!`
       )
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
       // Filter the taks out from state
       setTasksState(tasksState.filter(n => n.id !== id))
     })
@@ -124,6 +128,7 @@ const App = () => {
   return (
     <div className='App'>
       <h1>Tasks</h1>
+      <Notification message={errorMessage} />
       <ul>
         {showTasks()}
       </ul>
