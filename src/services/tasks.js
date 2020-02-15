@@ -1,5 +1,5 @@
 import axios from 'axios'
-const baseURL = 'http://localhost:3001/tasks'
+const baseURL = 'http://localhost:3001/api/tasks'
 
 const getAll = () => {
     const request = axios.get(baseURL)
@@ -16,9 +16,15 @@ const update = (id, newObject) => {
     return request.then(response => response.data)
 }
 
+const remove = id => {
+    const request = axios.delete(`${baseURL}/${id}`)
+    return request
+}
+
 // Key: Variables = Functions here
 export default {
     getAll: getAll,
     create: create,
-    update: update
+    update: update,
+    remove: remove
 }

@@ -1,56 +1,13 @@
 import './App.css';
 //import ReactDOM from 'react-dom';
 import React, { useState, useEffect } from 'react';
-import axios from 'axios'
 import Task from './components/Task'
 import taskService from './services/tasks'
 import Notification from './components/Notification'
 
-const tasks = [
-  {
-    id: 1,
-    content: 'Create MERN App',
-    date: '2020-02-03',
-    important: true,
-    subtasks: [
-      {
-        id: 1,
-        content: 'Build Frontend',
-        mainTask: 1
-      },
-      {
-        id: 2,
-        content: 'Build Backend',
-        mainTask: 1
-      }
-    ]
-  },
-  {
-    id: 2,
-    content: 'Test App',
-    date: '2020-02-03',
-    important: false,
-    subtasks: [
-      {
-        id: 3,
-        content: 'Learn about Unit Tests',
-        mainTask: 2
-      },
-      {
-        id: 4,
-        content: 'Try out Cypress.io',
-        mainTask: 2
-      }
-    ]
-  },
-  {
-    id: 3,
-    content: 'Task without Subtasks',
-    date: '2020-02-07',
-    important: false
-
-  }
-]
+// TODO
+// ALTER tasks
+// CREATE SUBTASKS + DELETE + UPDATE
 
 const App = () => {
   // State Hooks
@@ -59,6 +16,7 @@ const App = () => {
   const [showAll, setShowAll] = useState(true)
   const [filter, setFilter] = useState('')
   const [errorMessage, setErrorMessage] = useState(null)
+  const [updatedTask, setUpdatedTask] = useState('')
 
 
   useEffect(() => {                           // useEffect(hook, [])
@@ -69,6 +27,7 @@ const App = () => {
       })
   }, [])
 
+  // Adding new tasks
   const addTask = (event) => {
     event.preventDefault();
     const newTaskObject = {
@@ -90,16 +49,48 @@ const App = () => {
     setNewTask(event.target.value)
   }
 
+  // Search
   const handleSearch = (event) => {
     console.log(event.target.value)
     setFilter(event.target.value)
   }
 
+  // Delete task
+  const handleDelete = (id) => {
+    taskService
+      .remove(id)
+      .then(() => {
+        const newTasks = tasksState.filter(task => task.id !== id)
+        setTasksState(newTasks)
+      })
+  }
+
+  // Update a task
+  const updateTask = (id, content) => {
+    //event.preventDefault()
+    const task = tasksState.find(n => n.id === id)
+    const changedTask = {...task, content: updatedTask}
+
+    taskService
+      .update(id, changedTask)
+      .then(returnedTask => {
+        setTasksState(returnedTask)
+      })
+  }
+
+  const handleUpdatedTask = (event) => {
+    console.log(event.target.value)
+    setUpdatedTask(event.target.value)
+  }
+
+  // Display tasks
   const tasksToShow = showAll
   // Show all and allow searching
-  ? tasksState.filter(task => task.content.toLowerCase().includes(filter.toLowerCase())).map(task => <Task task={task} toggleImportance={() => toggleImportanceOf(task.id)}/>)
+  ? tasksState.filter(task => task.content.toLowerCase().includes(filter.toLowerCase())).map(task => 
+    <Task task={task} toggleImportance={() => toggleImportanceOf(task.id)} onDelete={handleDelete} onUpdate={updateTask} updatedTask={updatedTask} handleUpdatedTask={handleUpdatedTask}/>)
   // Show only important and allow searching
-  : tasksState.filter(task => task.content.toLowerCase().includes(filter.toLowerCase())).filter(task => task.important).map(task => <Task task={task} toggleImportance={() => toggleImportanceOf(task.id)}/>)
+  : tasksState.filter(task => task.content.toLowerCase().includes(filter.toLowerCase())).filter(task => task.important).map(task => 
+    <Task task={task} toggleImportance={() => toggleImportanceOf(task.id)} onDelete={handleDelete} onUpdate={updateTask} updatedTask={updatedTask} handleUpdatedTask={handleUpdatedTask}/>)
 
   const showTasks = () => tasksToShow
 
@@ -110,7 +101,7 @@ const App = () => {
   taskService
     .update(id, changedTask)
     .then(returnedTask => {
-      setTasksState(tasksState.map(task => task.id !== id ? task : returnedTask))
+      setTasksState(returnedTask)
     })
     // Catch error when user tries to make a non existing task (not) important
     .catch(error => {
@@ -124,6 +115,7 @@ const App = () => {
       setTasksState(tasksState.filter(n => n.id !== id))
     })
   }
+
 
   return (
     <div className='App'>
