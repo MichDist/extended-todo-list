@@ -1,5 +1,6 @@
 import React from 'react';
 import Subtask from './Subtask';
+//import '../App.css';
 
 const Task = ({task, toggleImportance, onDelete, onUpdate, updatedTask, handleUpdatedTask}) => {
     // Importance
@@ -25,7 +26,8 @@ const Task = ({task, toggleImportance, onDelete, onUpdate, updatedTask, handleUp
         <button onClick={toggleImportance}>{label}</button>
         <button onClick={() => handleConfirmDelete(task.id, task.content)}>Delete</button> 
         <form onSubmit={() => handleOnUpdate(task.id)}>
-            <input           
+            <input   
+            className="updateInput"
             value={updatedTask}
             onChange={handleUpdatedTask}/>
             <button type="submit">Update task</button>

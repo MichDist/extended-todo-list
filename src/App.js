@@ -6,7 +6,6 @@ import taskService from './services/tasks'
 import Notification from './components/Notification'
 
 // TODO
-// ALTER tasks
 // CREATE SUBTASKS + DELETE + UPDATE
 
 const App = () => {

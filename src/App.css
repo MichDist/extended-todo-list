@@ -12,3 +12,11 @@
   padding: 10px;
   margin-bottom: 10px;
 }
+
+.updateInput {
+  opacity: 0;
+}
+
+.updateInput:hover {
+  opacity: 1;
+}
