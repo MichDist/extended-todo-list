@@ -1,3 +1,6 @@
+The frontend for my WIP web technologies "playground" (see todo-backend repo).  
+----------------------------------------------------------------------------------------------
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
